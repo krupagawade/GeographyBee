@@ -5,12 +5,13 @@ function Circlebar(prefs) {
    this.element.append('<div class="spinner-holder-one animate-0-25-a"><div class="spinner-holder-two animate-0-25-b"><div class="loader-spinner" style=""></div></div></div><div class="spinner-holder-one animate-25-50-a"><div class="spinner-holder-two animate-25-50-b"><div class="loader-spinner"></div></div></div><div class="spinner-holder-one animate-50-75-a"><div class="spinner-holder-two animate-50-75-b"><div class="loader-spinner"></div></div></div><div class="spinner-holder-one animate-75-100-a"><div class="spinner-holder-two animate-75-100-b"><div class="loader-spinner"></div></div></div>');
     this.value, this.maxValue, this.counter, this.dialWidth, this.size, this.fontSize, this.fontColor, this.skin, this.triggerPercentage, this.type, this.timer, this.stopTimer;
     
-    isTimerExpired = false;
+    isTimerExpired = false; //Check if timer has expired. Modification to Original code
 
     // var attribs = this.element.find("div")[0].parentNode.dataset;
     var attribs = this.element[0].dataset,
         that = this;
 
+        //Original Circle plugin
     this.initialise = function() {
         that.value = parseInt(attribs.circleStarttime) || parseInt(prefs.startTime) || 0;
         that.maxValue = parseInt(attribs.circleMaxvalue) || parseInt(prefs.maxValue) || 60;
@@ -29,7 +30,6 @@ function Circlebar(prefs) {
         that.element.find(".loader-bg .text")
             .css({ "font-size": that.fontSize, "color": that.fontColor });
         isTimerExpired = false;
-        console.log("circle initialise");
     };
 
     this.initialise();
@@ -86,7 +86,7 @@ function Circlebar(prefs) {
                     text.html(date.toISOString().substr(11, 8));
                 } else {
                     clearInterval(that.timer);
-                    isTimerExpired = true;
+                    isTimerExpired = true; //Check if timer has expired. Modification to Original code
                 }
             }, (that.counter));
         }
@@ -107,9 +107,7 @@ function Circlebar(prefs) {
             };
             setDeceleratingTimeout(0.1, 100);
         }
-        this.stopTimer = that.timer;
-        console.log("TIMER HANDLE :$$$$ " +that.timer);
-        console.log("TIMER THIS HANDLE :$$$$ " +this.stopTimer);
+        this.stopTimer = that.timer; //Store the value to reset the timer. Modification to Original code
     }
 
     this.textFilter();
@@ -122,15 +120,15 @@ function Circlebar(prefs) {
         text.html(that.value);
     }
 
+    //To stop and clear the timer. Modification to Original code
     this.stopInterval = function(){
         clearInterval(this.stopTimer);
     }
-
+//clear the timer. Modification to Original code
     this.clearTimer = function(){
-        console.log("TIMER HANDLE :@@@@@ " +this.stopTimer);
         clearInterval(this.stopTimer);        
     }
-
+//To start the timer and render on screen. Modification to Original code
     this.startTimer = function(){
         initialise();
         that.element.find(".animate-50-75-b, .animate-25-50-b, .animate-0-25-b, .animate-75-100-b").css("transform", "rotate(-90deg)");

@@ -1,8 +1,8 @@
 
 var stopTimeoutVar ="";
 var userClicked = false; // check if user has selected the answer
-var win=0;
-var loss=0;
+var win=0; //counts the wins
+var loss=0; //counts the losses
 
 var q1= {
 
@@ -79,12 +79,9 @@ var questionsArr = [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10];
 
 var i = 0;
 
+//This function is to load the question for GeoBee quiz
 function loadQuestion() {
-    console.log("Lenght of questionarr : " + questionsArr.length);
-        console.log("Question " + questionsArr[i].question);
         $("#question").append("<h3>" + questionsArr[i].question + "</h3>");
-        //$("#textDetail").html("<br>");
-
         for(var j=0; j<questionsArr[i].choices.length; j++){
             $("#answer"+j).append("<h3>"+ questionsArr[i].choices[j] + "</h3>")
             $("#answer"+j).hover(function(){
@@ -136,9 +133,8 @@ function resetGeoBee(){
 }
 
 
-//function to verify answer selected by user
+//Based on user selected option this function will verify answer and score the user accordingly
 $(".answer").on("click",function(){
-    console.log("Verify : " + $(this).text());
     if(!userClicked){
         if(questionsArr[i].correctAns === $(this).text()){
             win++;
@@ -148,12 +144,12 @@ $(".answer").on("click",function(){
             loss++;
             $("#result").append("<BR><h3>Wrong Answer! Correct answer is " +questionsArr[i].correctAns + "</h3>");        
         }
-        console.log("TIMEOUT CALLED");
         userClicked = true;
         loadVideo();
     }
 });
 
+//loads the video and hides the circle timer
 function loadVideo(){
         //hide timer
         $("#myCircle").hide();
@@ -161,13 +157,11 @@ function loadVideo(){
         //Show video 
         $("#playVideo").attr("src", questionsArr[i].urlvideo);
         $("#playVideo").show();
-        //$("#playVideo").playVideo();
-        //document.getElementById("playVideo").play();
         setTimeout(nextQuestion, 20000); 
 }
 
+//loads the circle 
 function loadCircle(){
-    console.log("calling load circle");
     $("#circle-1").Circlebar({
         maxValue: 30,
         fontSize: "14px",
@@ -177,7 +171,6 @@ function loadCircle(){
 
 //check if timer is expired
 function checkTimerExpired(){
-    console.log("check timer expiry : " + isTimerExpired);
     if(isTimerExpired){
         clearInterval(stopTimeoutVar);
         loss++;
@@ -186,6 +179,7 @@ function checkTimerExpired(){
     }
 }
 
+//Initial Questionnaire and timer after all the HTML is loaded
 $(document).ready(function() {
     loadCircle();    
     $("#playVideo").hide();
